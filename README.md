@@ -13,3 +13,11 @@ fonts needed:
 themes needed:
  - Sweet-cursors
  - Catppuccin-green gtk
+
+
+## Installation (please dont)
+```sh
+git clone https://github.com/Book-reader/dotfiles
+cd dotfiles
+./install.sh
+```
