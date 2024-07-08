@@ -1,0 +1,163 @@
+{
+    "layer": "top",
+    "position": "top",
+    "mod": "dock",
+    "exclusive": true,
+    "passthrough": false,
+    "gtk-layer-shell": true,
+    "height": 0,
+    "modules-left": [
+        "clock",
+        "hyprland/workspaces"
+    ],
+    "modules-center": ["hyprland/window"],
+    "modules-right": [
+        "tray",
+//	"custom/capslock",
+        /*"custom/updates",
+        "custom/server",*/
+        "battery",
+        "cpu",
+        "memory",
+        "network",
+		"backlight",
+        "wireplumber",
+        "pulseaudio#microphone"
+    ],
+
+    "hyprland/window": {
+        "format": "{}"
+    },
+    "hyprland/workspaces": {
+        "disable-scroll": true,
+        "all-outputs": true,
+	"sort-by-number": true,
+        "on-click": "activate",
+	"format": "{icon}",
+        "format-icons": {
+            "1": "I",
+            "2": "II",
+            "3": "III",
+            "4": "IV",
+            "5": "V",
+	    "6": "VI",
+	    "7": "VII",
+	    "8": "VIII",
+	    "9": "IX",
+	    "10": "X",
+            "11": "<big>󰝚</big>",
+            "12": "<big>󱜏</big>"
+	    //"active": "AEFF{icon}"
+        }
+        //"persistent_workspaces": {
+        //    "1": [],
+        //    "2": [],
+        //    "3": [],
+        //    "4": [],
+        //    "5": [],
+        //    "6": [],
+        //    "7": [],
+        //    "8": [],
+        //    "9": [],
+        //    "10": []
+        //}
+    },
+//    #"custom/capslock": {
+//        "exec": "xset -q | sed -n 's/^.*Caps Lock:\\s*\\(\\S*\\).*$/\\1/p'",
+//	"format": "{}",
+//	"format-off": "OFF"
+//    },
+    /*"custom/server": {
+        "exec": "curl https://api.mcstatus.io/v2/status/java/mc.talbotnz.synology.me | jq -r --unbuffered --compact-output '.players | {\"text\": .online, \"tooltip\": [.list .[].name_clean] | join(\"\n\")}'",
+        // This should refresh the player count on click
+        "on-click": "",
+        "return-type": "json",
+        "interval": 480,
+        "format": "󰆦 {}"
+    },
+    "custom/updates": {
+        // OH GOD WHAT HAVE I CREATED
+        // and why does it not work????
+        //"exec": "echo -n \"$((checkupdates ; yay -Qua) | tr '\n' '\"')\" | jq -Rr '{ \"updates\": . | split(\"\\\"\") | del(.[-1]) } | { \"text\": .updates | length, \"tooltip\": .updates }'",
+        //"return-type": "json",
+        "exec": "(checkupdates ; yay -Qua) | wc -l",
+        "interval": 7200,
+        "format": " {} "
+    },*/
+    "tray": {
+        "icon-size": 13,
+        "spacing": 10
+    },
+    "clock": {
+        "format": " {:%I:%M %p   %d/%m}",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
+    },
+    "wireplumber": {
+        "format": "{icon} {volume}%",
+        "tooltip": true,
+        "format-muted": " Muted",
+        "on-click": "pamixer --get-default-sink -t",	
+        "on-scroll-up": "pamixer --get-default-sink -i 5",
+        "on-scroll-down": "pamixer --get-default-sink -d 5",
+        "scroll-step": 5,
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["", "", ""]
+        }
+    },
+    "pulseaudio#microphone": {
+        "format": "{format_source}",
+        "format-source": " {volume}%",
+        "format-source-muted": " Muted",
+        "on-click": "pamixer --default-source -t",
+        "on-scroll-up": "pamixer --default-source -i 5",
+        "on-scroll-down": "pamixer --default-source -d 5",
+        "scroll-step": 5
+    },
+    "battery": {
+        "bat": "BAT0",
+        "states": {
+            // "good": 95,
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{capacity}% {icon}",
+        "format-charging": "{capacity}% ",
+        "format-plugged": "{capacity}% ",
+        "format-alt": "{time} {icon}",
+        // "format-good": "", // An empty format will hide the module
+        // "format-full": "",
+        "format-icons": ["", "", "", "", "", "", "", "", "", "", ""]
+    },
+    "network": {
+        // "interface": "wlp*", // (Optional) To force the use of this interface
+        "format-wifi": "{essid} ({signalStrength}%) ",
+        "format-ethernet": "{ipaddr}/{cidr} ",
+        "tooltip-format": "{ifname} via {gwaddr} ",
+        "format-linked": "{ifname} (No IP) ",
+        "format-disconnected": "Disconnected ⚠",
+        "format-alt": "{ifname}: {ipaddr}/{cidr}"
+    },
+    "cpu": {
+        "interval": 10,
+        "format": " {}%",
+        "max-length": 10,
+        "on-click": ""
+    },
+    "memory": {
+        "interval": 15,
+        "format":" {used:0.1f}G",
+        "format-alt": " {}%",
+        "max-length": 10
+    },
+    "backlight": {
+        "format": "󰖨 {}%",
+        "on-scroll-up": "brightnessctl s 5%+",
+        "on-scroll-down": "brightnessctl s 5%-"
+    }
+}
