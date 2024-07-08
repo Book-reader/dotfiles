@@ -1,0 +1,190 @@
+@import "mocha.css";
+
+* {
+    border: none;
+    /*border-radius: 0;*/
+    font-family: Cartograph CF Nerd Font, monospace, Noto Sans Nerd Font;
+    font-weight: bold;
+    font-size: 14px;
+    min-height: 0;
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+window#waybar {
+    /* background-color: #1e1e2e; */
+    background-color: @base;
+    /* border-bottom: 3px solid rgba(100, 114, 125, 0.5); */
+    border-bottom: 3px solid alpha(@mauve,0.5);
+    /* color: #ffffff; */
+    color: @text;
+    transition-property: background-color;
+    transition-duration: .5s;
+}
+
+window#waybar.hidden {
+    opacity: 0.2;
+}
+
+/*
+window#waybar.empty {
+    background-color: transparent;
+}
+window#waybar.solo {
+    background-color: #FFFFFF;
+}
+*/
+/*
+*
+* Try making a button like this :
+*https://codepen.io/kathykato/pen/gOOjgmP
+*
+*
+*/
+button {
+    /* Use box-shadow instead of border so the text isn't offset */
+    box-shadow: inset 0 -3px transparent;
+    /* Avoid rounded borders under each button name */
+    border: none;
+    border-radius: 0;
+}
+
+/*#workspaces {
+    border-radius: 8;
+    border-top
+    background-color: #48d36A;
+    border-top: 5px solid @base;
+    border-bottom: 3px solid #48836a;
+}*/
+
+#workspaces button {
+    padding: 5px;
+    /* color: #313244; */
+    color: @surface2;
+    margin-right: 1px;
+}
+
+#workspaces button.active {
+    /* color: #a6adc8; */
+    color: @lavender;
+}
+
+#workspaces button.focused {
+    /* color: #eba0ac; */
+    color: @rosewater;
+    /*background: #eba0ac;*/
+    border-radius: 10px;
+}
+
+#workspaces button.urgent {
+    /* color: #a6e3a1; */
+    color: @green;
+    /*background: #a6e3a1;*/
+    border-radius: 10px;
+}
+
+#workspaces button:hover {
+    background: rgba(0, 0, 0, 0);
+    /* color: #cdd6f4; */
+    color: @subtext1;
+    border-radius: 10px;
+}
+
+#mode {
+    background-color: #64727D;
+    border-bottom: 3px solid #ffffff;
+}
+
+#clock,
+#battery,
+#cpu,
+#memory,
+#disk,
+#temperature,
+#backlight,
+#network,
+#pulseaudio,
+#wireplumber,
+#custom-media,
+#tray,
+#mode,
+#idle_inhibitor,
+#scratchpad,
+#mpd {
+    padding: 0 10px;
+    color: #ffffff;
+}
+
+#window,
+#workspaces {
+    margin: 0 4px;
+}
+
+/* If workspaces is the leftmost module, omit left margin */
+.modules-left > widget:first-child > #workspaces {
+    margin-left: 0;
+}
+
+/* If workspaces is the rightmost module, omit right margin */
+.modules-right > widget:last-child > #workspaces {
+    margin-right: 0;
+}
+
+#clock {
+    color: #fab387;
+    border-radius: 10px 0px 0px 10px;
+    margin-left: 0px;
+    border-right: 0px;
+}
+
+#network {
+    color: #f9e2af;
+    border-left: 0px;
+    border-right: 0px;
+}
+
+#wireplumber {
+    color: #89b4fa;
+    border-left: 0px;
+    border-right: 0px;
+}
+
+#pulseaudio.microphone {
+    color: #cba6f7;
+    border-left: 0px;
+    border-right: 0px;
+}
+
+#battery {
+    /* background-color: #48d36A; */
+    color: #a6e3a1;
+    border-radius: 10px 10px 10px 10px;
+    /* margin-right: 10px; */
+    border-left: 0px;
+}
+
+/* #battery.charging, #battery.plugged {
+    color: #ffffff;
+    background-color: #26A65B;
+} */
+
+@keyframes blink {
+    to {
+        background-color: #ffffff;
+        color: #000000;
+    }
+}
+
+#battery.critical:not(.charging) {
+    background-color: #f53c3c;
+    color: #ffffff;
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+label:focus {
+    background-color: #000000;
+}
