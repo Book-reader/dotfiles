@@ -1,5 +1,5 @@
 # My dotfiles
-put them in .config to try them
+put them in .config to try them\n
 expect nothing to work
 ![a screenhot of the desktop](./screenshot.png)
 
