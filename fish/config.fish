@@ -2,28 +2,14 @@ if status is-interactive
 
 # Fix with ostree
 if [ $PWD = "/var/home/$USER" ]
-		cd
+    cd
 end
 
 set LSCMD "eza"
 set LSCMDARGS "--icons --git -l"
 set EDITOR "nvim"
 
-if [ -d "$HOME/.bin" ] ;
-  set PATH "$HOME/.bin:$PATH"
-end
-if [ -d "$HOME/.local/bin" ] ;
-  set PATH "$HOME/.local/bin:$PATH"
-end
-if [ -d "$HOME/.cargo/bin" ] ;
-  set PATH "$HOME/.cargo/bin:$PATH"
-end
-if [ -d "$HOME/.nix-profile/bin" ] ;
-  set PATH "$HOME/.nix-profile/bin:$PATH"
-end
-if [ -d "$HOME/.config/emacs/bin" ] ;
-  set PATH "$HOME/.config/emacs/bin:$PATH"
-end
+fish_add_path "$HOME/.bin" "$HOME/.local/bin" "$HOME/.cargo/bin" "$HOME/.nix-profile/bin" "$HOME/.config/emacs/bin"
 
 alias getip "dig +short myip.opendns.com @resolver1.opendns.com"
 alias nvidia "sudo envycontrol -s nvidia"
