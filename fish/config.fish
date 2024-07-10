@@ -7,7 +7,7 @@ end
 
 set LSCMD "eza"
 set LSCMDARGS "--icons --git -l"
-set EDITOR "vim"
+set EDITOR "nvim"
 
 if [ -d "$HOME/.bin" ] ;
   set PATH "$HOME/.bin:$PATH"
