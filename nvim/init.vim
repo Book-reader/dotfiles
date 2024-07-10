@@ -1,28 +1,11 @@
 call plug#begin()
 Plug 'catppuccin/vim', { 'as': 'catppuccin' }
 Plug 'vim-airline/vim-airline',
-"Plug 'preservim/nerdtree',
-"Plug 'junegunn/fzf', { 'do': { -> fzf#install() } },
-"Plug 'junegunn/fzf.vim',
-Plug 'chrisbra/Colorizer',
-"Plug 'scrooloose/syntastic',
-"Plug 'valloric/youcompleteme'
-"Plug 'w0rp/ale'
-"Plug 'Shougo/ddc.vim',
-"Plug 'vim-denops/denops.vim',
-"Plug 'Shougo/ddc-ui-native',
-"Plug 'Shougo/ddc-matcher_head',
-"Plug 'Shougo/ddc-sorter_rank',
-"Plug 'shun/ddc-vim-lsp',
-"Plug 'prabirshrestha/asyncomplete.vim',
-"Plug 'prabirshrestha/asyncomplete-lsp.vim',
-"Plug 'Shougo/ddc.vim',
-"Plug 'prabirshrestha/vim-lsp',
-"Plug 'mattn/vim-lsp-settings',
-"Plug 'uiiaoo/java-syntax.vim',
-"Plug 'tpope/vim-fugitive',
-"Plug 'pangloss/vim-javascript'
+"Plug 'chrisbra/Colorizer',
+Plug 'norcalli/nvim-colorizer.lua',
 call plug#end()
+set guicursor=
+
 set backspace=indent,eol,start
 
 set history=200		" keep 200 lines of command line history
@@ -198,3 +181,6 @@ set smartcase
 
 
 set tabstop=4
+
+
+lua require'colorizer'.setup()
