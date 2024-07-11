@@ -37,7 +37,7 @@ to setup vim you need to run :PlugInstall
  - trash-cli
  - fastfetch
  - zoxide
- - vim
+ - neovim
  - rofi-wayland
  - rofi-power-menu
  - wl-clipboard

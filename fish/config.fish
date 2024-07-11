@@ -7,7 +7,7 @@ end
 
 set LSCMD "eza"
 set LSCMDARGS "--icons --git -l"
-set EDITOR "vim"
+set EDITOR "nvim"
 
 fish_add_path "$HOME/.bin" "$HOME/.local/bin" "$HOME/.cargo/bin" "$HOME/.nix-profile/bin" "$HOME/.config/emacs/bin"
 
