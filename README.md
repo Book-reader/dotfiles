@@ -26,6 +26,7 @@ to setup vim you need to run :PlugInstall
  - hyprland
  - hyprlock
  - hyprpaper
+ - waybar
  - alacritty
  - tofi
  - brightnessctl
