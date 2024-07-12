@@ -1,7 +1,8 @@
 # My dotfiles
-put them in .config to try them<br>
-expect nothing to work
-![a screenhot of the desktop](./screenshot.png)
+
+# This config is **NOT** user friendly and should **NOT** be used in its entirety without prior knowledge on configuring Hyprland or any of the other programs
+
+![a screenshot of the desktop](./screenshot.png)
 
 ## Installation (please dont)
 ```sh
