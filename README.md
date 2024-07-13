@@ -45,3 +45,4 @@ to setup vim you need to run :PlugInstall
  - rofi-wayland
  - rofi-power-menu
  - wl-clipboard
+ - dunst
