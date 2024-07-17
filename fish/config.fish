@@ -11,7 +11,7 @@ set EDITOR "nvim"
 
 fish_add_path "$HOME/.bin" "$HOME/.local/bin" "$HOME/.cargo/bin" "$HOME/.nix-profile/bin" "$HOME/.config/emacs/bin"
 
-alias getip "dig +short myip.opendns.com @resolver1.opendns.com"
+alias getip "dig +short txt ch whoami.cloudflare @1.0.0.1"
 alias nvidia "sudo envycontrol -s nvidia"
 alias hybrid "sudo envycontrol -s hybrid"
 alias integrated "sudo envycontrol -s integrated"
