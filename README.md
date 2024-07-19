@@ -14,6 +14,8 @@ cd dotfiles
 ## Other things needed
 to setup vim you need to run :PlugInstall
 
+If you would rather use neovim instead of emacs for terminal editing, in fish/config.fish, set EDITOR to "nvim" and EDITORARGS to ""
+
 ### fonts needed:
  - NotoSans Nerd Font
  - Mononoki Nerd Font
