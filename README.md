@@ -18,6 +18,7 @@ to setup vim you need to run :PlugInstall
  - NotoSans Nerd Font
  - Mononoki Nerd Font
  - Cartograph CF Nerd Font
+ - 0xProto Nerd Font (only for emacs)
 
 ### themes needed:
  - Sweet-cursors
@@ -46,3 +47,4 @@ to setup vim you need to run :PlugInstall
  - rofi-power-menu
  - wl-clipboard
  - dunst
+ - emacs
