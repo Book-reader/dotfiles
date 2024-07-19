@@ -7,7 +7,8 @@ end
 
 set LSCMD "eza"
 set LSCMDARGS "--icons --git -l"
-set EDITOR "nvim"
+set EDITOR "emacsclient"
+set EDITORARGS "--alternate-editor= -t"
 
 fish_add_path "$HOME/.bin" "$HOME/.local/bin" "$HOME/.cargo/bin" "$HOME/.nix-profile/bin" "$HOME/.config/emacs/bin"
 
@@ -20,7 +21,7 @@ alias \\\\ "command"
 abbr g "git"
 abbr c "cd"
 if type -q "$EDITOR"
-  alias vim "$EDITOR"
+  alias vim "$EDITOR $EDITORARGS"
 end
 abbr v "vim"
 if type -q "$LSCMD"
