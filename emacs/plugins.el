@@ -75,3 +75,25 @@
   ("C-." . mc/unmark-next-like-this)
   ("C-," . mc/unmark-previous-like-this)
   ("C-c C-." . mc/keyboard-quit))
+
+(use-package general
+  :config
+  (general-create-definer st/leader-keys
+    :prefix "C-SPC")
+  (general-auto-unbind-keys)
+  (st/leader-keys
+    "f" '(:ignore t :which-key "file")
+    "f f" 'find-file
+    "f s" 'save-buffer
+    "f c" '((find-file '~/.config/emacs/init.el) :which-key "open config")
+
+    "c" '(:ignore t :which-key "copy")
+    "c c" '(kill-ring-save :which-key "copy selected")
+    "c x" '(kill-region :which-key "cut selected")
+    "c p" '(yank :which-key "paste")
+
+    "b" '(:ignore t :which-key "buffer")
+    "b k" 'kill-buffer
+    "b s" 'switch-to-buffer
+    "b n" 'next-buffer
+    "b p" 'previous-buffer))
