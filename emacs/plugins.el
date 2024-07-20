@@ -1,18 +1,21 @@
+(use-package general) ; Better keybind stuff
+
 (use-package ivy ; Ivy is for fuzzy completion
 ;  :diminish ; Hides "ivy" from the mode line (Elisp/d ivy ElDoc)
-  :bind (("C-s" . swiper)
-	 :map ivy-minibuffer-map
-	 ("TAB" . ivy-alt-done)
-	 ("C-l" . ivy-alt-done)
-	 ("C-j" . ivy-next-line)
-	 ("C-k" . ivy-previous-line)
-	 :map ivy-switch-buffer-map
-	 ("C-k" . ivy-previous-line)
-	 ("C-l" . ivy-done)
-	 ("C-d" . ivy-switch-buffer-kill)
-	 :map ivy-reverse-i-search-map
-	 ("C-k" . ivy-previous-line)
-	 ("C-d" . ivy-reverse-i-search-kill))
+  :general 
+  ("C-s" 'swiper)
+  (:keymaps 'ivy-minibuffer-map
+  "TAB" 'ivy-alt-done
+  "C-l" 'ivy-alt-done
+  "C-j" 'ivy-next-line
+  "C-k" 'ivy-previous-line)
+  (:keymaps 'ivy-switch-buffer-map
+  "C-k" 'ivy-previous-line
+  "C-l" 'ivy-done
+  "C-d" 'ivy-switch-buffer-kill)
+  (:keymaps 'ivy-reverse-i-search-map
+  "C-k" 'ivy-previous-line
+  "C-d" 'ivy-reverse-i-search-kill)
   :init
   (ivy-mode 1))
 
@@ -59,41 +62,26 @@
   :custom
   (counsel-describe-function-function #'helpful-callable)
   (counsel-describe-variable-function #'helpful-variable)
-  :bind
-  ([remap describe-function] . counsel-describe-function)
-  ([remap describe-command] . helpful-command)
-  ([remap describe-variable] . counsel-describe-variable)
-  ([remap describe-key] . helpful-key))
+  :general
+  ([remap describe-function] 'counsel-describe-function)
+  ([remap describe-command] 'helpful-command)
+  ([remap describe-variable] 'counsel-describe-variable)
+  ([remap describe-key] 'helpful-key))
 
 (use-package doom-themes) ; ALL the themes
 
-(use-package multiple-cursors
-  :bind
-  ("C->" . mc/mark-next-like-this)
-  ("C-<" . mc/mark-previous-like-this)
-  ("C-c C-<" . mc/mark-all-like-this)
-  ("C-." . mc/unmark-next-like-this)
-  ("C-," . mc/unmark-previous-like-this)
-  ("C-c C-." . mc/keyboard-quit))
-
-(use-package general
-  :config
-  (general-create-definer st/leader-keys
-    :prefix "C-SPC")
-  (general-auto-unbind-keys)
-  (st/leader-keys
-    "f" '(:ignore t :which-key "file")
-    "f f" 'find-file
-    "f s" 'save-buffer
-    "f c" '(find-file "~/.config/emacs/init.el" :which-key "open config")
-
-    "c" '(:ignore t :which-key "copy")
-    "c c" '(kill-ring-save :which-key "copy selected")
-    "c x" '(kill-region :which-key "cut selected")
-    "c p" '(yank :which-key "paste")
-
-    "b" '(:ignore t :which-key "buffer")
-    "b k" 'kill-current-buffer
-    "b s" 'switch-to-buffer
-    "b n" 'next-buffer
-    "b p" 'previous-buffer))
+(use-package multiple-cursors ; Edit on multiple lines at once
+  :general
+  ("C->" 'mc/mark-next-like-this)
+  ("C-<" 'mc/mark-previous-like-this)
+  ("C-c C-<" 'mc/mark-all-like-this)
+  ("C-." 'mc/unmark-next-like-this)
+  ("C-," 'mc/unmark-previous-like-this)
+  ("C-c C-." 'mc/keyboard-quit)
+  )
+ 
+(use-package projectile ; Programming project intergration
+  :init
+  (projectile-mode)
+  
+  )
