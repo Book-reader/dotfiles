@@ -8,7 +8,7 @@ end
 set LSCMD "eza"
 set LSCMDARGS "--icons --git -l"
 set EDITOR "emacsclient"
-set EDITORARGS "--alternate-editor= -t"
+set EDITORARGS "--alternate-editor= -c"
 
 fish_add_path "$HOME/.bin" "$HOME/.local/bin" "$HOME/.cargo/bin" "$HOME/.nix-profile/bin" "$HOME/.config/emacs/bin"
 

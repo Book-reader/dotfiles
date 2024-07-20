@@ -14,8 +14,6 @@
 
 (load-theme 'doom-horizon t) ; Sets the theme
 
-(global-set-key (kbd "<escape>") 'keyboard-escape-quit) ; Make escape quit prompts
-
 
 (column-number-mode) ; Show the column we are on as well as the line (in the modeline)
 (global-display-line-numbers-mode t) ; Show line numbers on the left
@@ -29,16 +27,55 @@
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
 ; Setup the plugin manager
-(setq plugin-setup-file (expand-file-name "plugin-setup.el" user-emacs-directory))
-(load plugin-setup-file)
+(load (expand-file-name "plugin-setup.el" user-emacs-directory))
 
 ; The plugins
-(setq plugins-file (expand-file-name "plugins.el" user-emacs-directory))
-(load plugins-file)
+(load (expand-file-name "plugins.el" user-emacs-directory))
 
 
-(provide 'init)
+(general-create-definer st/leader-keys
+  :global-prefix "C-SPC")
+(general-auto-unbind-keys)
+
+; Setup cutom global keybinds
+
+(general-define-key
+ "M-x" 'counsel-M-x
+ "<escape>" 'keyboard-escape-quit ; Make escape quit prompts
+ )
+
+(st/leader-keys
+  "f" '(:ignore t :wk "file")
+  "f f" 'find-file
+  "f s" 'save-buffer
+  "f c" '('(find-file ~/.config/emacs/init.el) :wk "open config") ; TODO: Broken, FIXME
+
+  "c" '(:ignore t :wk "copy")
+  "c c" '(kill-ring-save :wk "copy selected")
+  "c x" '(kill-region :wk "cut selected")
+  "c p" '(yank :wk "paste")
+
+  "b" '(:ignore t :wk "buffer")
+  "b b" '(switch-to-buffer :wk "Switch buffer")
+  "b k" '(kill-current-buffer :wk "Kill current buffer")
+  "b n" '(next-buffer :wk "Next buffer")
+  "b p" '(previous-buffer :wk "Previous Buffer")
+  "b r" '(revert-buffer :wk "Reload Buffer")
+
+  "u" '(:ignore t :wk "undo")
+  "u u" '(undo :wk "Undo")
+  "u r" '(undo-redo :wk "Redo")
+
+  "h" '(:ignore t :wk "help")
+  "h k" '(general-describe-keybindings :wk "keys")
+  "h d" '(:ignore t :wk "Describe")
+  "h d v" '(helpful-variable :wk "Describe Variable")
+  "h d f" '(describe-function :wk "Describe Function"))
+
 
 ; Gets rid of the annoying custom-set-variables block by moving to a new file
+; Then doesnt load the file
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-(load custom-file)
+;(load custom-file)
+
+(provide 'init)
