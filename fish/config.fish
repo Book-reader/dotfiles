@@ -52,4 +52,9 @@ if type -q "fastfetch"
   fastfetch
 end
 
+function fish_command_not_found
+  bash -c "~/.config/fish/bash.command-not-found"
+  __fish_default_command_not_found_handler $argv
+end
+
 end
