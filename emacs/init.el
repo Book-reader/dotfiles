@@ -70,7 +70,13 @@
   "h k" '(general-describe-keybindings :wk "keys")
   "h d" '(:ignore t :wk "Describe")
   "h d v" '(helpful-variable :wk "Describe Variable")
-  "h d f" '(describe-function :wk "Describe Function"))
+  "h d f" '(describe-function :wk "Describe Function")
+
+  "p" '(ignore t :wk "project")
+  "p r" '(projectile-run-project :wk "Run project")
+  "p d" '(projectile-dired :wk "View project folder")
+  "p f" '(projectile-find-file :wk "Find file in project")
+  "p p" '(projectile-switch-project :wk "Open Project"))
 
 
 ; Gets rid of the annoying custom-set-variables block by moving to a new file

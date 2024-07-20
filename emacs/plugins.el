@@ -81,7 +81,15 @@
   )
  
 (use-package projectile ; Programming project intergration
+  :general
+  ("C-c p" 'projectile-command-map)
+  :config
+  (when (file-directory-p "~/code")
+    (setq projectile-project-search-path '("~/code")))
+  (when (file-directory-p "~/git")
+    (setq projectile-project-search-path '("~/git")))
+  (setq projectile-switch-project-action #'projectile-dired)
   :init
   (projectile-mode)
-  
   )
+ 
