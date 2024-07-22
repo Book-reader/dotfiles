@@ -92,22 +92,22 @@
   (projectile-mode 1)
   )
 
-(use-package hl-todo ; Highloght TODOs
-  :init
-  (hl-todo-mode 1))
+;; (use-package hl-todo ; Highloght TODOs
+;;   :init
+;;   (hl-todo-mode 1))
 
-(use-package magit ; Git stuff
-  )
+;; (use-package magit ; Git stuff
+;;   )
 
-(use-package magit-todos ; Hightlight TODOs in magit
-  )
+;; (use-package magit-todos ; Hightlight TODOs in magit
+;;   )
 
 
-; TODO: Chose one of these
-(use-package org-modern
-  :init
-  (global-org-modern-mode 1))
-; (use-package org-superstar)
+;; ; TODO: Chose one of these
+;; (use-package org-modern
+;;   :init
+;;   (global-org-modern-mode 1))
+;; ; (use-package org-superstar)
 
 
 ; TODO The font is doing some wierd clipping stuff so I need to fix it

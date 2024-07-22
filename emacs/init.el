@@ -34,7 +34,8 @@
 
 
 (general-create-definer st/leader-keys
-  :global-prefix "C-SPC")
+  :global-prefix "C-SPC"
+  :prefix "C-SPC")
 (general-auto-unbind-keys)
 
 ; Setup cutom global keybinds

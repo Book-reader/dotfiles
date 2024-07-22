@@ -14,8 +14,8 @@
     "modules-right": [
         "tray",
 //	"custom/capslock",
-        /*"custom/updates",
-        "custom/server",*/
+        /*"custom/updates",*/
+        "custom/server",
         "battery",
         "cpu",
         "memory",
@@ -67,14 +67,14 @@
 //	"format": "{}",
 //	"format-off": "OFF"
 //    },
-    /*"custom/server": {
+    "custom/server": {
         "exec": "curl https://api.mcstatus.io/v2/status/java/$(cat ~/.mc_url)  | jq -r --unbuffered --compact-output '.players | {\"text\": .online, \"tooltip\": [.list .[].name_clean] | join(\"\n\")}'",
         // This should refresh the player count on click
         "on-click": "",
         "return-type": "json",
         "interval": 480,
         "format": "󰆦 {}"
-    },
+    },/*
     "custom/updates": {
         // OH GOD WHAT HAVE I CREATED
         // and why does it not work????
