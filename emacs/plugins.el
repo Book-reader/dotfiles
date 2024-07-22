@@ -57,7 +57,6 @@
   :config
   (setq which-key-idle-delay 0.3))
 
-
 (use-package helpful ; Better help screens
   :custom
   (counsel-describe-function-function #'helpful-callable)
@@ -90,6 +89,25 @@
     (setq projectile-project-search-path '("~/git")))
   (setq projectile-switch-project-action #'projectile-dired)
   :init
-  (projectile-mode)
+  (projectile-mode 1)
   )
- 
+
+(use-package hl-todo ; Highloght TODOs
+  :init
+  (hl-todo-mode 1))
+
+(use-package magit ; Git stuff
+  )
+
+(use-package magit-todos ; Hightlight TODOs in magit
+  )
+
+
+; TODO: Chose one of these
+(use-package org-modern
+  :init
+  (global-org-modern-mode 1))
+; (use-package org-superstar)
+
+
+; TODO The font is doing some wierd clipping stuff so I need to fix it

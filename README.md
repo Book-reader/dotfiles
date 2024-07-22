@@ -1,6 +1,6 @@
 # My dotfiles
 
-# This config is **NOT** user friendly and should **NOT** be used in its entirety without prior knowledge on configuring Hyprland or any of the other programs
+## This config is **NOT** user friendly and should **NOT** be used in its entirety without prior knowledge on configuring Hyprland or any of the other programs
 
 ![a screenshot of the desktop](./screenshot.png)
 
@@ -21,7 +21,7 @@ To make the caps lock key work instead of pressing Control, remove the line "kb_
  - NotoSans Nerd Font
  - Mononoki Nerd Font
  - Cartograph CF Nerd Font
- - 0xProto Nerd Font (only for emacs)
+ - 0xProto Nerd Font
 
 ### themes needed:
  - Sweet-cursors
