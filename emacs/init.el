@@ -12,6 +12,13 @@
 (custom-set-faces
  '(default ((t (:inherit nil :font "0xProto Nerd Font Mono" :height 110))))); Sets font (in daemon)
 
+
+; Setup the plugin manager
+(load (expand-file-name "plugin-setup.el" user-emacs-directory))
+
+; The plugins
+(load (expand-file-name "plugins.el" user-emacs-directory))
+
 (load-theme 'doom-horizon t) ; Sets the theme
 
 
@@ -25,13 +32,6 @@
 		eshell-mode-hook
 		shell-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
-
-; Setup the plugin manager
-(load (expand-file-name "plugin-setup.el" user-emacs-directory))
-
-; The plugins
-(load (expand-file-name "plugins.el" user-emacs-directory))
-
 
 (general-create-definer st/leader-keys
   :global-prefix "C-SPC"
