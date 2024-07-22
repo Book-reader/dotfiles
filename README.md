@@ -15,6 +15,7 @@ cd dotfiles
 to setup vim you need to run :PlugInstall
 
 If you would rather use neovim instead of emacs for terminal editing, in fish/config.fish, set EDITOR to "nvim" and EDITORARGS to ""
+
 To make the caps lock key work instead of pressing Control, remove the line "kb_options = caps:ctrl_modifier" in hypr/hyprland.conf
 
 ### fonts needed:
