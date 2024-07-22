@@ -1,1 +1,1 @@
-("~/config/")
+("/var/home/samuel/config/" "~/config/")
