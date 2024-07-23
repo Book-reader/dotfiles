@@ -10,16 +10,16 @@
     },
     {
       "type": "host",
-      "key": " : "
+      "key": " : "
     },
     {
       "type": "cpu",
-      "key": " : ",
+      "key": " : ",
       "format": "{1} @ {7} GHz"
     },
     {
       "type": "gpu",
-      "key": " : "
+      "key": " : "
     },
     {
       "type": "memory",
@@ -27,7 +27,7 @@
     },
     {
       "type": "display",
-      "key": " : "
+      "key": "󰍹 : "
     },
     {
       "type": "custom",
@@ -39,7 +39,7 @@
     },
     {
       "type": "kernel",
-      "key": " : "
+      "key": " : "
     },
     {
       "type": "wm",
@@ -47,19 +47,19 @@
     },
     {
       "type": "shell",
-      "key": " : "
+      "key": " : "
     },
     {
       "type": "terminal",
-      "key": " : "
+      "key": " : "
     },
     {
       "type": "packages",
-      "key": "󰏓 : "
+      "key": " : "
     },
 	{
       "type": "command",
-      "key": "󱘿 : ",
+      "key": " : ",
       "text": "birth_install=$(stat -c %W /var); current=$(date +%s); time_progression=$((current - birth_install)); days_difference=$((time_progression / 86400)); echo $days_difference days"
     },
     {
