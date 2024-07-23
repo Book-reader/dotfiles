@@ -73,7 +73,7 @@
         "on-click": "",
         "return-type": "json",
         "interval": 480,
-        "format": "󰆦 {}"
+        "format": " {}"
     },/*
     "custom/updates": {
         // OH GOD WHAT HAVE I CREATED
@@ -82,7 +82,7 @@
         //"return-type": "json",
         "exec": "(checkupdates ; yay -Qua) | wc -l",
         "interval": 7200,
-        "format": " {} "
+        "format": " {} "
     },*/
     "tray": {
         "icon-size": 13,
@@ -95,7 +95,7 @@
     "wireplumber": {
         "format": "{icon} {volume}%",
         "tooltip": true,
-        "format-muted": " Muted",
+        "format-muted": "  Muted",
         "on-click": "pamixer --get-default-sink -t",	
         "on-scroll-up": "pamixer --get-default-sink -i 5",
         "on-scroll-down": "pamixer --get-default-sink -d 5",
@@ -112,8 +112,8 @@
     },
     "pulseaudio#microphone": {
         "format": "{format_source}",
-        "format-source": " {volume}%",
-        "format-source-muted": " Muted",
+        "format-source": " {volume}%",
+        "format-source-muted": "  Muted",
         "on-click": "pamixer --default-source -t",
         "on-scroll-up": "pamixer --default-source -i 5",
         "on-scroll-down": "pamixer --default-source -d 5",
@@ -127,7 +127,7 @@
             "critical": 15
         },
         "format": "{capacity}% {icon}",
-        "format-charging": "{capacity}% ",
+        "format-charging": "{capacity}% ",
         "format-plugged": "{capacity}% ",
         "format-alt": "{time} {icon}",
         // "format-good": "", // An empty format will hide the module
@@ -139,24 +139,24 @@
         "format-wifi": "{essid} ({signalStrength}%) ",
         "format-ethernet": "{ipaddr}/{cidr} ",
         "tooltip-format": "{ifname} via {gwaddr} ",
-        "format-linked": "{ifname} (No IP) ",
-        "format-disconnected": "Disconnected ⚠",
+        "format-linked": "{ifname} (No IP) ",
+        "format-disconnected": "Disconnected ",
         "format-alt": "{ifname}: {ipaddr}/{cidr}"
     },
     "cpu": {
         "interval": 10,
-        "format": " {}%",
+        "format": " {}%",
         "max-length": 10,
         "on-click": ""
     },
     "memory": {
         "interval": 15,
-        "format":" {used:0.1f}G",
-        "format-alt": " {}%",
+        "format":" {used:0.1f}G",
+        "format-alt": " {}%",
         "max-length": 10
     },
     "backlight": {
-        "format": "󰖨 {}%",
+        "format": " {}%",
         "on-scroll-up": "brightnessctl s 5%+",
         "on-scroll-down": "brightnessctl s 5%-"
     }
