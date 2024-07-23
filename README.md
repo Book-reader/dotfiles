@@ -20,8 +20,6 @@ To make the caps lock key work instead of pressing Control, remove the line "kb_
 
 ### fonts needed:
  - NotoSans Nerd Font
- - Mononoki Nerd Font
- - Cartograph CF Nerd Font
  - 0xProto Nerd Font
 
 ### themes needed:
