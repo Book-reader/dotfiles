@@ -185,6 +185,18 @@ button {
     animation-direction: alternate;
 }
 
+#battery.warning:not(.charging) {
+    color: #fab387;
+    /*background-color: #fab387;
+    color: #ffffff;
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;*/
+}
+
+
 label:focus {
     background-color: #000000;
 }

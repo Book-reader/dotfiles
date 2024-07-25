@@ -1,1 +1,0 @@
-("/var/home/samuel/config/" "/var/home/samuel/git/activate-linux/" "~/config/")
