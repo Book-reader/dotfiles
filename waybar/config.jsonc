@@ -122,17 +122,17 @@
     "battery": {
         "bat": "BAT0",
         "states": {
-            // "good": 95,
+            "good": 100,
             "warning": 30,
             "critical": 15
         },
-        "format": "{capacity}% {icon}",
+        "format": "{capacity}% ",
         "format-charging": "{capacity}% ",
         "format-plugged": "{capacity}% ",
         "format-alt": "{time} {icon}",
         // "format-good": "", // An empty format will hide the module
         // "format-full": "",
-        "format-icons": ["", "", "", "", "", "", "", "", "", "", ""]
+        // "format-icons": ["", "", "", "", "", "", "", "", "", "", ""]
     },
     "network": {
         // "interface": "wlp*", // (Optional) To force the use of this interface
