@@ -43,13 +43,23 @@
 (general-define-key
  "M-x" 'counsel-M-x
  "<escape>" 'keyboard-escape-quit ; Make escape quit prompts
- )
+ "C--" 'text-scale-decrease
+ "C-=" 'text-scale-increase
+ "C-<backspace>" 'backward-delete-word
+ "M-<backspace>" 'backward-delete-word)
+
+(defun backward-delete-word (arg)
+  "Delete characters backward until encountering the beginning of a word.
+With argument ARG, do this that many times."
+  (interactive "p")
+  (delete-region (point) (progn (backward-word arg) (point))))
 
 (st/leader-keys
   "f" '(:ignore t :wk "file")
   "f f" 'find-file
+  "f F" 'sudo-edit
   "f s" 'save-buffer
-  "f c" '('(find-file ~/.config/emacs/init.el) :wk "open config") ; TODO: Broken, FIXME
+  "f c" '((lambda () (interactive) (find-file "~/.config/emacs/init.el")) :wk "open config")
 
   "c" '(:ignore t :wk "copy")
   "c c" '(kill-ring-save :wk "copy selected")
@@ -69,15 +79,36 @@
 
   "h" '(:ignore t :wk "help")
   "h k" '(general-describe-keybindings :wk "keys")
-  "h d" '(:ignore t :wk "Describe")
-  "h d v" '(helpful-variable :wk "Describe Variable")
-  "h d f" '(describe-function :wk "Describe Function")
+  "h v" '(helpful-variable :wk "Describe Variable")
+  "h f" '(describe-function :wk "Describe Function")
 
   "p" '(ignore t :wk "project")
   "p r" '(projectile-run-project :wk "Run project")
   "p d" '(projectile-dired :wk "View project folder")
   "p f" '(projectile-find-file :wk "Find file in project")
-  "p p" '(projectile-switch-project :wk "Open Project"))
+  "p p" '(projectile-switch-project :wk "Open Project")
+
+  "w" '(ignore t :wk "Window/Split")
+  "w k" '(quit-window :wk "Close Split")
+  "w s <down>" 'split-window-below
+
+
+  "e" '(:ignore t :wk "Evaluate")    
+  "e b" '(eval-buffer :wk "Evaluate elisp in buffer")
+  "e d" '(eval-defun :wk "Evaluate defun containing or after point")
+  "e e" '(eval-expression :wk "Evaluate and elisp expression")
+  "e l" '(eval-last-sexp :wk "Evaluate elisp expression before point")
+  "e r" '(eval-region :wk "Evaluate elisp in region")
+
+  "TAB TAB" '(comment-line :wk "Comment line")
+
+  "t" '(:ignore t :wk "Toggle")
+  "t l" '(display-line-numbers-mode :wk "Toggle line numbers")
+  "t t" '(visual-line-mode :wk "Toggle truncated lines")
+
+  "k" '(:ignore t :wk "Delete")
+  "k k" '(kill-whole-line :wk "Delete line")
+  )
 
 
 ; Gets rid of the annoying custom-set-variables block by moving to a new file

@@ -92,6 +92,8 @@
   (projectile-mode 1)
   )
 
+(use-package sudo-edit)
+
 ;; (use-package hl-todo ; Highloght TODOs
 ;;   :init
 ;;   (hl-todo-mode 1))
@@ -108,6 +110,3 @@
 ;;   :init
 ;;   (global-org-modern-mode 1))
 ;; ; (use-package org-superstar)
-
-
-; TODO The font is doing some wierd clipping stuff so I need to fix it
