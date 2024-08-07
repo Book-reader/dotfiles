@@ -94,9 +94,12 @@
 
 (use-package sudo-edit)
 
-;; (use-package hl-todo ; Highloght TODOs
-;;   :init
-;;   (hl-todo-mode 1))
+(use-package hl-todo ; Highloght TODOs
+  :init
+  (hl-todo-mode 1))
+
+
+(use-package vterm)
 
 ;; (use-package magit ; Git stuff
 ;;   )
@@ -110,3 +113,12 @@
 ;;   :init
 ;;   (global-org-modern-mode 1))
 ;; ; (use-package org-superstar)
+
+;; (load (expand-file-name "c3-mode.el" user-emacs-directory))
+;; (require 'c3-mode)
+
+
+(setq treesit-language-source-alist
+  '((c3 "https://github.com/c3lang/tree-sitter-c3")))
+(load (expand-file-name "c3-ts-mode.el" user-emacs-directory))
+(require 'c3-ts-mode)
