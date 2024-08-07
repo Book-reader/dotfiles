@@ -92,6 +92,9 @@
   (projectile-mode 1)
   )
 
+(use-package counsel-projectile
+  :config (counsel-projectile-mode))
+
 (use-package sudo-edit)
 
 (use-package hl-todo ; Highloght TODOs
@@ -101,8 +104,8 @@
 
 (use-package vterm)
 
-;; (use-package magit ; Git stuff
-;;   )
+(use-package magit ; Git stuff
+  )
 
 ;; (use-package magit-todos ; Hightlight TODOs in magit
 ;;   )
