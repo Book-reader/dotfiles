@@ -92,6 +92,7 @@ With argument ARG, do this that many times."
   "p d" '(projectile-dired :wk "View project folder")
   "p f" '(projectile-find-file :wk "Find file in project")
   "p p" '(projectile-switch-project :wk "Open Project")
+  "p g" '(counsel-projectile-rg :wk "Search Project")
 
   "w" '(ignore t :wk "Window/Split")
   "w k" '(quit-window :wk "Close Split")
@@ -113,6 +114,9 @@ With argument ARG, do this that many times."
 
   "k" '(:ignore t :wk "Delete")
   "k k" '(kill-whole-line :wk "Delete line")
+
+  "g" '(:ignore t :wk "Git")
+  "g s" '(magit-status :wk "Git status")
   )
 
 
