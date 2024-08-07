@@ -7,6 +7,9 @@
 (set-fringe-mode 10) ; Give some breathing room (what does this do? is it for the bottom panel?)
 (menu-bar-mode -1) ; Disable the menu bar
 
+(setq-default indent-tabs-mode t) ; Use spaces for tabs
+(setq-default tab-width 4) ; Set number of spaces to 4
+
 (setq visible-bell t) ; For when u go too far (incorrent command, down arrow at end of file)
 
 (custom-set-faces
@@ -59,6 +62,7 @@ With argument ARG, do this that many times."
   "f f" 'find-file
   "f F" 'sudo-edit
   "f s" 'save-buffer
+  "f d" 'make-directory
   "f c" '((lambda () (interactive) (find-file "~/.config/emacs/init.el")) :wk "open config")
 
   "c" '(:ignore t :wk "copy")
@@ -72,6 +76,7 @@ With argument ARG, do this that many times."
   "b n" '(next-buffer :wk "Next buffer")
   "b p" '(previous-buffer :wk "Previous Buffer")
   "b r" '(revert-buffer :wk "Reload Buffer")
+  "b i" '(ibuffer :wl "IBuffer")
 
   "u" '(:ignore t :wk "undo")
   "u u" '(undo :wk "Undo")
