@@ -1,3 +1,11 @@
+(use-package auto-package-update ; Auto-update plugins
+  :config
+  (setq auto-package-update-delete-old-versions t
+        auto-package-update-interval 4)
+  :init
+  (auto-package-update-maybe)
+  )
+
 (use-package general) ; Better keybind stuff
 
 (use-package ivy ; Ivy is for fuzzy completion
@@ -77,6 +85,7 @@
   ("C-." 'mc/unmark-next-like-this)
   ("C-," 'mc/unmark-previous-like-this)
   ("C-c C-." 'mc/keyboard-quit)
+  ;; ("<escape>" 'mc/keyboard-quit)
   )
  
 (use-package projectile ; Programming project intergration
@@ -99,7 +108,7 @@
 
 (use-package hl-todo ; Highloght TODOs
   :init
-  (hl-todo-mode 1))
+  (global-hl-todo-mode 1))
 
 
 (use-package vterm)
@@ -107,9 +116,11 @@
 (use-package magit ; Git stuff
   )
 
-;; (use-package magit-todos ; Hightlight TODOs in magit
-;;   )
+(use-package magit-todos ; Hightlight TODOs in magit
+  )
 
+(use-package forge ; Github issues in emacs
+  :after magit)
 
 ;; ; TODO: Chose one of these
 ;; (use-package org-modern

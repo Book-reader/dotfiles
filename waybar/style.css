@@ -131,33 +131,33 @@ button {
 }
 
 #clock {
-    color: #fab387;
+    color: @peach;
     border-radius: 10px 0px 0px 10px;
     margin-left: 0px;
     border-right: 0px;
 }
 
 #network {
-    color: #f9e2af;
+    color: @yellow;
     border-left: 0px;
     border-right: 0px;
 }
 
 #wireplumber {
-    color: #89b4fa;
+    color: @blue;
     border-left: 0px;
     border-right: 0px;
 }
 
 #pulseaudio.microphone {
-    color: #cba6f7;
+    color: @mauve;
     border-left: 0px;
     border-right: 0px;
 }
 
 #battery {
     /* background-color: #48d36A; */
-    color: #a6e3a1;
+    color: @green;
     border-radius: 10px 10px 10px 10px;
     /* margin-right: 10px; */
     border-left: 0px;
@@ -186,7 +186,7 @@ button {
 }
 
 #battery.warning:not(.charging) {
-    color: #fab387;
+    color: @peach;
     /*background-color: #fab387;
     color: #ffffff;
     animation-name: blink;

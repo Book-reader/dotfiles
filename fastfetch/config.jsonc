@@ -15,7 +15,7 @@
     {
       "type": "cpu",
       "key": " : ",
-      "format": "{1} @ {7} GHz"
+      "format": "{1} @ {7}"
     },
     {
       "type": "gpu",

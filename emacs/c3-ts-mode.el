@@ -50,8 +50,29 @@
   :safe 'integerp
   :group 'c3-ts)
 
+(defcustom c3-ts-mode-highlight-variable 't
+  "Enable highlighting of variables in `c3-ts-mode'."
+  :version "29.1"
+  :type 'boolean
+  :safe 'booleanp
+  :group 'c3-ts)
+
+(defcustom c3-ts-mode-highlight-property 't
+  "Enable highlighting of members in `c3-ts-mode'."
+  :version "29.1"
+  :type 'boolean
+  :safe 'booleanp
+  :group 'c3-ts)
+
 (defcustom c3-ts-mode-highlight-assignment 't
   "Enable highlighting of assignments in `c3-ts-mode'."
+  :version "29.1"
+  :type 'boolean
+  :safe 'booleanp
+  :group 'c3-ts)
+
+(defcustom c3-ts-mode-highlight-punctuation 't
+  "Enable highlighting of punctuation in `c3-ts-mode'."
   :version "29.1"
   :type 'boolean
   :safe 'booleanp
@@ -88,12 +109,13 @@
     (modify-syntax-entry ?>  "."     table)
     (modify-syntax-entry ?&  "."     table)
     (modify-syntax-entry ?|  "."     table)
-    (modify-syntax-entry ?\' "\"" table)
+    (modify-syntax-entry ?\' "\""    table)
+    (modify-syntax-entry ?`  "\""    table)
     (modify-syntax-entry ?\240 "."   table)
     (modify-syntax-entry ?/ ". 124b" table)
-    (modify-syntax-entry ?* ". 23" table)
-    (modify-syntax-entry ?\n "> b" table)
-    (modify-syntax-entry ?\^m "> b" table)
+    (modify-syntax-entry ?* ". 23"   table)
+    (modify-syntax-entry ?\n "> b"   table)
+    (modify-syntax-entry ?\^m "> b"  table)
     table)
   "Syntax table for `c3-ts-mode'.")
 
@@ -208,7 +230,9 @@
     "qnameof"
     "returns"
     "sizeof"
-    "values"))
+    "values"
+    ;; Extra token in grammar
+    "typeid"))
 
 
 (defvar c3-ts-mode--operators
@@ -267,7 +291,7 @@
     ;; ">)"
     ;; ">]"
     "??"
-    "::"
+    ;; "::"
     "<<"
     ">>"
     "..."
@@ -279,9 +303,13 @@
     (keyword string type)
     ;; TODO Not clear if assignment should go in level 4 or not (3 is the default level).
     ,(append
-      '(builtin attribute escape-sequence literal constant function)
+      '(builtin attribute escape-sequence literal constant assembly module function)
       (when c3-ts-mode-highlight-assignment '(assignment)))
-    (bracket operator type-property)
+    ,(append
+      '(type-property operator bracket)
+      (when c3-ts-mode-highlight-punctuation '(punctuation))
+      (when c3-ts-mode-highlight-variable '(variable))
+      (when c3-ts-mode-highlight-property '(property)))
     ;; (error) ;; Disabled by default
     )
   "`treesit-font-lock-feature-list' for `c3-ts-mode'.")
@@ -322,14 +350,21 @@
 
    :language 'c3
    :feature 'type-property
-   `((type_access_expr (access_ident (ident) @font-lock-constant-face (:match ,(rx-to-string `(: bos (or ,@c3-ts-mode--type-properties) eos)) @font-lock-constant-face))))
+   `((type_access_expr (access_ident [(ident) "typeid"] @font-lock-constant-face (:match ,(rx-to-string `(: bos (or ,@c3-ts-mode--type-properties) eos)) @font-lock-constant-face))))
 
    :language 'c3
    :feature 'constant
-   `((const_ident) @font-lock-constant-face
-     ;; (ct_ident) @font-lock-constant-face ;; TODO debatable
-     ["true" "false" "null"] @font-lock-constant-face
-     (module_resolution (ident) ,c3-ts-mode-module-path-face)
+   '((const_ident) @font-lock-constant-face
+     ["true" "false" "null"] @font-lock-constant-face)
+
+   :language 'c3
+   :feature 'assembly
+   '((asm_instr [(ident) "int"] @font-lock-function-call-face)
+     (asm_expr [(ct_ident) (ct_const_ident)] @font-lock-variable-use-face))
+
+   :language 'c3
+   :feature 'module
+   `((module_resolution (ident) ,c3-ts-mode-module-path-face)
      (module (path_ident (ident) ,c3-ts-mode-module-path-face))
      (import_declaration (path_ident (ident) ,c3-ts-mode-module-path-face)))
 
@@ -347,7 +382,7 @@
 
      ;; TODO Probably don't want these
      ;; (type_suffix ["[" "[<" ">]" "]"] @font-lock-type-face)
-     ;; (optional_type "!" @font-lock-type-face)
+     ;; (type "!" @font-lock-type-face :anchor)
      )
 
    :language 'c3
@@ -360,7 +395,7 @@
    '((call_expr function: [(ident) (at_ident)] @font-lock-function-call-face)
      (call_expr function: (module_ident_expr ident: (_) @font-lock-function-call-face))
      (call_expr function: (trailing_generic_expr argument: (module_ident_expr ident: (_) @font-lock-function-call-face)))
-     (call_expr function: (field_expr field: (_) @font-lock-function-call-face))
+     (call_expr function: (field_expr field: (access_ident [(ident) (at_ident)] @font-lock-function-call-face))) ; NOTE Ambiguous, could be calling a method or function pointer
      ;; Method on type
      (call_expr function: (type_access_expr field: (access_ident [(ident) (at_ident)] @font-lock-function-call-face))))
 
@@ -388,8 +423,35 @@
    `(([,@c3-ts-mode--operators]) @font-lock-operator-face)
 
    :language 'c3
+   :feature 'property
+   '(;; Member
+     (field_expr field: (access_ident (ident) @font-lock-property-use-face))
+     (struct_member_declaration (ident) @font-lock-property-name-face)
+     (struct_member_declaration (identifier_list (ident) @font-lock-property-name-face))
+     (bitstruct_member_declaration (ident) @font-lock-property-name-face)
+     (initializer_list (arg (param_path (param_path_element (ident) @font-lock-property-name-face)))))
+
+   :language 'c3
+   :feature 'variable
+   '([(ident) (ct_ident)] @font-lock-variable-use-face
+     ;; Parameter
+     (parameter name: (_) @font-lock-variable-name-face)
+     (call_invocation (arg (param_path (param_path_element [(ident) (ct_ident)] @font-lock-variable-name-face))))
+     (enum_param_declaration (ident) @font-lock-variable-name-face)
+     ;; Declaration
+     (global_declaration (ident) @font-lock-variable-name-face)
+     (local_decl_after_type name: [(ident) (ct_ident)] @font-lock-variable-name-face)
+     (var_decl name: [(ident) (ct_ident)] @font-lock-variable-name-face)
+     (try_unwrap (ident) @font-lock-variable-name-face)
+     (catch_unwrap (ident) @font-lock-variable-name-face))
+
+   :language 'c3
    :feature 'bracket
    '((["(" ")" "[" "]" "{" "}" "(<" ">)" "[<" ">]" "{|" "|}"]) @font-lock-bracket-face)
+
+   :language 'c3
+   :feature 'punctuation
+   '(([";" "," "::"]) @font-lock-punctuation-face)
 
    :language 'c3
    :feature 'error
@@ -490,12 +552,11 @@
 
      ((parent-is "paren") parent 1)
      ((parent-is "binary") parent 0)
-     ((parent-is "ternary") parent 0)
-     ((parent-is "elvis_orelse") parent 0)
-     ((parent-is "unary") parent 0)
-     ((parent-is "subscript") parent 0)
-     ((parent-is "update") parent 0)
      ((parent-is "range") parent 0)
+     ((parent-is "elvis_orelse") parent 0)
+     ((parent-is "ternary") parent c3-ts-mode-indent-offset)
+     ((parent-is "subscript") parent c3-ts-mode-indent-offset)
+     ((parent-is "update") parent c3-ts-mode-indent-offset)
      ((parent-is "call") parent c3-ts-mode-indent-offset)
      ((parent-is "cast") parent c3-ts-mode-indent-offset)
 

@@ -44,9 +44,7 @@
 	    "7": "VII",
 	    "8": "VIII",
 	    "9": "IX",
-	    "10": "X",
-            "11": "<big>󰝚</big>",
-            "12": "<big>󱜏</big>"
+	    "10": "X"
 	    //"active": "AEFF{icon}"
         }
         //"persistent_workspaces": {

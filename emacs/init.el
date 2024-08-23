@@ -44,12 +44,12 @@
 ; Setup cutom global keybinds
 
 (general-define-key
- "M-x" 'counsel-M-x
+ "s-x" 'counsel-M-x
  "<escape>" 'keyboard-escape-quit ; Make escape quit prompts
  "C--" 'text-scale-decrease
  "C-=" 'text-scale-increase
  "C-<backspace>" 'backward-delete-word
- "M-<backspace>" 'backward-delete-word)
+ "s-<backspace>" 'backward-delete-word)
 
 (defun backward-delete-word (arg)
   "Delete characters backward until encountering the beginning of a word.
@@ -64,6 +64,7 @@ With argument ARG, do this that many times."
   "f s" 'save-buffer
   "f d" 'make-directory
   "f c" '((lambda () (interactive) (find-file "~/.config/emacs/init.el")) :wk "open config")
+  "f l" '(goto-line :wk "Find Line")
 
   "c" '(:ignore t :wk "copy")
   "c c" '(kill-ring-save :wk "copy selected")
