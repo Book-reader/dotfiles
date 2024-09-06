@@ -181,5 +181,6 @@ set smartcase
 
 
 set tabstop=4
-
+set expandtab
+set shiftwidth=4
 lua require'colorizer'.setup()

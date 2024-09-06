@@ -65,6 +65,7 @@ With argument ARG, do this that many times."
   "f d" 'make-directory
   "f c" '((lambda () (interactive) (find-file "~/.config/emacs/init.el")) :wk "open config")
   "f l" '(goto-line :wk "Find Line")
+  "f r" '(query-replace-regexp :wk "Find and replace")
 
   "c" '(:ignore t :wk "copy")
   "c c" '(kill-ring-save :wk "copy selected")
