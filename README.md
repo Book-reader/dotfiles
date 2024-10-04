@@ -1,6 +1,4 @@
-# My dotfiles
-
-## This config is **NOT** user friendly and should **NOT** be used in its entirety without prior knowledge on configuring Hyprland or any of the other programs
+# My personal dotfiles
 
 ![a screenshot of the desktop](./screenshot.png)
 
