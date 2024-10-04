@@ -1,55 +1,81 @@
-; Disables the welcome screen
-(setq inhibit-startup-message t)
+(setq custom-file "~/.config/emacs/custom.el")
+(package-initialize)
+;; Disable visible scrollbar
+(scroll-bar-mode 0)
+;; Disable toolbar
+(tool-bar-mode 0)
+;; Disable tooltips
+(tooltip-mode 0)
+(menu-bar-mode 0)
+(column-number-mode 1)
+;; Don't highlight lines that are "too long (> 80 chars)"
+;; I could increase the limit but I disable instead by removing "lines" from the below list
+;; I also remove " indentation" because it seems to be bugged and only works for tabs and not spaces
+;; "newline" + "newline-mark", "empty"
+(setq indent-tabs-mode nil)
+(setq whitespace-style '(face tabs spaces trailing space-before-tab space-after-tab space-mark tab-mark missing-newline-at-eof))
+(global-whitespace-mode 1)
 
-(scroll-bar-mode -1) ; Disable visible scrollbar
-(tool-bar-mode -1) ; Disable toolbar
-(tooltip-mode -1) ; Disable tooltips
-(set-fringe-mode 10) ; Give some breathing room (what does this do? is it for the bottom panel?)
-(menu-bar-mode -1) ; Disable the menu bar
+(setq visible-bell 1)
+(setq inhibit-startup-message 1)
+(setq make-backup-files nil)
 
-(setq-default indent-tabs-mode t) ; Use spaces for tabs
-(setq-default tab-width 4) ; Set number of spaces to 4
+;; Autocomplete stuff
+(fido-mode)
 
-(setq visible-bell t) ; For when u go too far (incorrent command, down arrow at end of file)
+(load "~/.config/emacs/rc.el")
 
+;; (rc/require 'doom-themes)
+;; (load-theme 'doom-horizon t)
+
+(rc/require-theme 'gruber-darker)
+
+(rc/require 'snap-indent)
+(require 'snap-indent)
+(add-to-list 'snap-indent-excluded-modes
+             'conf-unix-mode
+             'conf-space-mode)
+;; Global snap-indent
+(define-globalized-minor-mode global-snap-indent-mode
+  snap-indent-mode
+  snap-indent-mode)
+(global-snap-indent-mode 1)
+(setq snap-indent-on-save 1)
+;; list of functions
+(setq snap-indent-format '(untabify delete-trailing-whitespace))
+
+
+(rc/require 'hl-todo)
+(require 'hl-todo)
+(global-hl-todo-mode 1)
+
+;; Sets font (also works in daemon)
 (custom-set-faces
- '(default ((t (:inherit nil :font "0xProto Nerd Font Mono" :height 110))))); Sets font (in daemon)
+ '(default ((t (:inherit nil :font "0xProto Nerd Font" :height 110)))))
 
+;; From https://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginning-of-a-line/
+(defun smarter-move-beginning-of-line (arg)
+  "Move point back to indentation of beginning of line.
 
-; Setup the plugin manager
-(load (expand-file-name "plugin-setup.el" user-emacs-directory))
+Move point to the first non-whitespace character on this line.
+If point is already there, move to the beginning of the line.
+Effectively toggle between the first non-whitespace character and
+the beginning of the line.
 
-; The plugins
-(load (expand-file-name "plugins.el" user-emacs-directory))
+If ARG is not nil or 1, move forward ARG - 1 lines first.  If
+point reaches the beginning or end of the buffer, stop there."
+  (interactive "^p")
+  (setq arg (or arg 1))
 
-(load-theme 'doom-horizon t) ; Sets the theme
+  ;; Move lines first
+  (when (/= arg 1)
+    (let ((line-move-visual nil))
+      (forward-line (1- arg))))
 
-
-(column-number-mode) ; Show the column we are on as well as the line (in the modeline)
-(global-display-line-numbers-mode t) ; Show line numbers on the left
-
-; We dont want to see line numbers in the terminal, (e)shell, or org mode
-; The dolist is a for loop (for mode in (mode-hooks))
-(dolist (mode '(org-mode-hook
-		term-mode-hook
-		eshell-mode-hook
-		shell-mode-hook))
-  (add-hook mode (lambda () (display-line-numbers-mode 0))))
-
-(general-create-definer st/leader-keys
-  :global-prefix "C-SPC"
-  :prefix "C-SPC")
-(general-auto-unbind-keys)
-
-; Setup cutom global keybinds
-
-(general-define-key
- "s-x" 'counsel-M-x
- "<escape>" 'keyboard-escape-quit ; Make escape quit prompts
- "C--" 'text-scale-decrease
- "C-=" 'text-scale-increase
- "C-<backspace>" 'backward-delete-word
- "s-<backspace>" 'backward-delete-word)
+  (let ((orig-point (point)))
+    (back-to-indentation)
+    (when (= orig-point (point))
+      (move-beginning-of-line 1))))
 
 (defun backward-delete-word (arg)
   "Delete characters backward until encountering the beginning of a word.
@@ -57,74 +83,44 @@ With argument ARG, do this that many times."
   (interactive "p")
   (delete-region (point) (progn (backward-word arg) (point))))
 
-(st/leader-keys
-  "f" '(:ignore t :wk "file")
-  "f f" 'find-file
-  "f F" 'sudo-edit
-  "f s" 'save-buffer
-  "f d" 'make-directory
-  "f c" '((lambda () (interactive) (find-file "~/.config/emacs/init.el")) :wk "open config")
-  "f l" '(goto-line :wk "Find Line")
-  "f r" '(query-replace-regexp :wk "Find and replace")
 
-  "c" '(:ignore t :wk "copy")
-  "c c" '(kill-ring-save :wk "copy selected")
-  "c x" '(kill-region :wk "cut selected")
-  "c p" '(yank :wk "paste")
+(global-set-key (kbd "s-x") 'execute-extended-command)
+(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+(global-set-key (kbd "<home>") 'smarter-move-beginning-of-line)
+(global-set-key (kbd "C-<backspace>") 'backward-delete-word)
+(global-set-key (kbd "s-<backspace>") 'backward-delete-word)
 
-  "b" '(:ignore t :wk "buffer")
-  "b b" '(switch-to-buffer :wk "Switch buffer")
-  "b k" '(kill-current-buffer :wk "Kill current buffer")
-  "b n" '(next-buffer :wk "Next buffer")
-  "b p" '(previous-buffer :wk "Previous Buffer")
-  "b r" '(revert-buffer :wk "Reload Buffer")
-  "b i" '(ibuffer :wl "IBuffer")
+(load "~/.config/emacs/keys.el")
 
-  "u" '(:ignore t :wk "undo")
-  "u u" '(undo :wk "Undo")
-  "u r" '(undo-redo :wk "Redo")
+(keys/define-keys "C-f"
+                  (list
+                   '("f" find-file)
+                   '("s" save-buffer)
+                   '("l" goto-line)))
 
-  "h" '(:ignore t :wk "help")
-  "h k" '(general-describe-keybindings :wk "keys")
-  "h v" '(helpful-variable :wk "Describe Variable")
-  "h f" '(describe-function :wk "Describe Function")
+(keys/define-keys "C-b"
+                  (list
+                   '("b" switch-to-buffer)
+                   '("k" kill-current-buffer)
+                   '("n" next-buffer)
+                   '("p" previous-buffer)
+                   '("r" revert-buffer)
+                   '("i" ibuffer)))
 
-  "p" '(ignore t :wk "project")
-  "p r" '(projectile-run-project :wk "Run project")
-  "p d" '(projectile-dired :wk "View project folder")
-  "p f" '(projectile-find-file :wk "Find file in project")
-  "p p" '(projectile-switch-project :wk "Open Project")
-  "p g" '(counsel-projectile-rg :wk "Search Project")
+(keys/define-keys "C-e"
+                  (list
+                   '("e" eval-last-sexp)))
 
-  "w" '(ignore t :wk "Window/Split")
-  "w k" '(quit-window :wk "Close Split")
-  "w s <down>" 'split-window-below
+(rc/require 'multiple-cursors)
+(require 'multiple-cursors)
 
+(global-set-key (kbd "C-.") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-,") 'mc/mark-previous-like-this)
 
-  "e" '(:ignore t :wk "Evaluate")    
-  "e b" '(eval-buffer :wk "Evaluate elisp in buffer")
-  "e d" '(eval-defun :wk "Evaluate defun containing or after point")
-  "e e" '(eval-expression :wk "Evaluate and elisp expression")
-  "e l" '(eval-last-sexp :wk "Evaluate elisp expression before point")
-  "e r" '(eval-region :wk "Evaluate elisp in region")
+(setq treesit-language-source-alist
+      '((c3 "https://github.com/c3lang/tree-sitter-c3")))
 
-  "TAB TAB" '(comment-line :wk "Comment line")
+(add-to-list 'load-path (expand-file-name "local/" user-emacs-directory))
+(require 'c3-ts-mode)
 
-  "t" '(:ignore t :wk "Toggle")
-  "t l" '(display-line-numbers-mode :wk "Toggle line numbers")
-  "t t" '(visual-line-mode :wk "Toggle truncated lines")
-
-  "k" '(:ignore t :wk "Delete")
-  "k k" '(kill-whole-line :wk "Delete line")
-
-  "g" '(:ignore t :wk "Git")
-  "g s" '(magit-status :wk "Git status")
-  )
-
-
-; Gets rid of the annoying custom-set-variables block by moving to a new file
-; Then doesnt load the file
-(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-;(load custom-file)
-
-(provide 'init)
+(load-file custom-file)

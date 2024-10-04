@@ -1,0 +1,6 @@
+(defun keys/define-keys (prefix binds)
+  (global-unset-key (kbd prefix))
+  (dolist (bind binds)
+    (setq key (kbd (concat (concat prefix " ") (nth 0 bind))))
+    (global-unset-key key)
+    (global-set-key key (nth 1 bind))))

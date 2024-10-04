@@ -7,10 +7,10 @@ end
 
 set LSCMD "eza"
 set LSCMDARGS "--icons --git -l"
-set EDITOR "emacsclient"
-set EDITORARGS "--alternate-editor= -c"
+set EDITOR "emacs"
+set EDITORARGS ""
 
-fish_add_path "$HOME/.bin" "$HOME/.local/bin" "$HOME/.cargo/bin" "$HOME/.nix-profile/bin" "$HOME/.config/emacs/bin"
+fish_add_path "$HOME/.bin" "$HOME/.local/bin" "$HOME/.cargo/bin" "$HOME/.nix-profile/bin" "$HOME/.config/emacs/bin" "$HOME/go/bin"
 
 alias getip "dig +short txt ch whoami.cloudflare @1.0.0.1"
 alias nvidia "sudo envycontrol -s nvidia"
@@ -56,5 +56,7 @@ function fish_command_not_found
   bash -c "~/.config/fish/bash.command-not-found"
   __fish_default_command_not_found_handler $argv
 end
+
+alias hist "history | awk 'NF {print \$1}' | sort | uniq -c | sort -nr | head -10"
 
 end

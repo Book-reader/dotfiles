@@ -172,6 +172,7 @@ button {
     to {
         background-color: #ffffff;
         color: #000000;
+        /*font-size: 1000px;*/
     }
 }
 
@@ -184,6 +185,7 @@ button {
     animation-iteration-count: infinite;
     animation-direction: alternate;
 }
+
 
 #battery.warning:not(.charging) {
     color: @peach;
