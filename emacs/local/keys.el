@@ -3,4 +3,9 @@
   (dolist (bind binds)
     (setq key (kbd (concat (concat prefix " ") (nth 0 bind))))
     (global-unset-key key)
-    (global-set-key key (nth 1 bind))))
+    ;; (define-key mine-keymap key (nth 1 bind))
+    ;; (global-set-key key (nth 1 bind))
+    (bind-key* key (nth 1 bind))
+    ))
+
+(provide 'keys)
