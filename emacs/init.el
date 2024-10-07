@@ -1,4 +1,6 @@
 (setq custom-file "~/.config/emacs/custom.el")
+(add-to-list 'load-path (expand-file-name "local/" user-emacs-directory))
+
 (package-initialize)
 ;; Disable visible scrollbar
 (scroll-bar-mode 0)
@@ -8,6 +10,8 @@
 (tooltip-mode 0)
 (menu-bar-mode 0)
 (column-number-mode 1)
+
+(global-display-line-numbers-mode 1)
 ;; Don't highlight lines that are "too long (> 80 chars)"
 ;; I could increase the limit but I disable instead by removing "lines" from the below list
 ;; I also remove " indentation" because it seems to be bugged and only works for tabs and not spaces
@@ -23,7 +27,7 @@
 ;; Autocomplete stuff
 (fido-mode)
 
-(load "~/.config/emacs/rc.el")
+(require 'rc)
 
 ;; (rc/require 'doom-themes)
 ;; (load-theme 'doom-horizon t)
@@ -83,14 +87,21 @@ With argument ARG, do this that many times."
   (interactive "p")
   (delete-region (point) (progn (backward-word arg) (point))))
 
+(rc/require 'multiple-cursors)
+(require 'multiple-cursors)
 
-(global-set-key (kbd "s-x") 'execute-extended-command)
-(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
-(global-set-key (kbd "<home>") 'smarter-move-beginning-of-line)
-(global-set-key (kbd "C-<backspace>") 'backward-delete-word)
-(global-set-key (kbd "s-<backspace>") 'backward-delete-word)
+(require 'keys)
 
-(load "~/.config/emacs/keys.el")
+(keys/define-keys ""
+                  (list
+                   '("s-x" execute-extended-command)
+                   '("<escape>" keyboard-escape-quit)
+                   '("<home>" smarter-move-beginning-of-line)
+                   '("C-<backspace>" backward-delete-word)
+                   '("s-<backspace>" backward-delete-word)
+                   '("C-<tab>" comment-line)
+                   '("C-." mc/mark-next-like-this)
+                   '("C->" mc/mark-previous-like-this)))
 
 (keys/define-keys "C-f"
                   (list
@@ -109,18 +120,18 @@ With argument ARG, do this that many times."
 
 (keys/define-keys "C-e"
                   (list
-                   '("e" eval-last-sexp)))
+                   '("e" eval-last-sexp)
+                   '("f" eval-buffer)))
 
-(rc/require 'multiple-cursors)
-(require 'multiple-cursors)
+(rc/require 'consult)
+(require 'consult)
 
-(global-set-key (kbd "C-.") 'mc/mark-next-like-this)
-(global-set-key (kbd "C-,") 'mc/mark-previous-like-this)
+(rc/require 'vterm)
+(require 'vterm)
 
 (setq treesit-language-source-alist
       '((c3 "https://github.com/c3lang/tree-sitter-c3")))
 
-(add-to-list 'load-path (expand-file-name "local/" user-emacs-directory))
 (require 'c3-ts-mode)
 
 (load-file custom-file)
