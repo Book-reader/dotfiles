@@ -90,6 +90,17 @@ With argument ARG, do this that many times."
 (rc/require 'multiple-cursors)
 (require 'multiple-cursors)
 
+;; (rc/require 'lsp-mode)
+;; (require 'lsp-mode)
+
+(rc/require 'company)
+(add-hook 'after-init-hook 'global-company-mode)
+;; (add-to-list 'lsp-language-id-configuration '(c3-ts-mode . "c3"))
+;; (lsp-register-client (make-lsp-client
+;;                       :new-connection (lsp-stdio-connection "c3lsp")
+;;                       :activation-fn (lsp-activate-on "c3")
+;;                       :server-id 'c3lsp))
+
 (require 'keys)
 
 (keys/define-keys ""
@@ -135,3 +146,5 @@ With argument ARG, do this that many times."
 (require 'c3-ts-mode)
 
 (load-file custom-file)
+(put 'downcase-region 'disabled nil)
+(provide 'init)
