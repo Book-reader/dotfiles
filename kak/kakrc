@@ -1,2 +1,20 @@
-colorscheme gruvbox-dark
+# We have autoload at home
+# autoload at home:
+evaluate-commands %sh{
+  for filename in $HOME/.config/kak/local/*.kak; do
+    echo "try %{ source \"${filename}\" }"
+  done
+}
 
+colorscheme gruvbox-dark
+face global function rgb:8ec07c
+
+add-highlighter global/ number-lines -relative
+add-highlighter global/ show-whitespaces
+
+
+map global normal y -docstring "Copy selection to clipboard"      ": clipboard-copy<ret>"
+map global normal P -docstring "Paste clipboard after selection"  ": clipboard-paste-after<ret>"
+map global normal p -docstring "Paste clipboard before selection" ": clipboard-paste-before<ret>"
+map global normal r -docstring "Replace selection with clipboard" ": clipboard-replace<ret>"
+map global normal x -docstring "Cut selection to clipboard"       ": clipboard-copy; exec d<ret>"

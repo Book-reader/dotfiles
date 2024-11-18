@@ -1,26 +1,32 @@
 declare-option -docstring %{
     The shell command to which data will be piped to copy to the system clipboard
-} str clipboardcmd_copy %sh{
-    for cmd in "xsel -i" "pbcopy" "wl-copy -p"; do
-        readonly program="${cmd%% *}"
-        if command -v "${program}" >/dev/null 2>&1; then
-            printf %s "${cmd}"
-            exit
-        fi
-    done
-}
+} str clipboardcmd_copy "wl-copy"
+# TODO: re-add when I update my system and remove xsel
+# %sh{
+#     # The '-p' in 'wl-copy -p' breaks things
+#     for cmd in "xsel -i" "pbcopy" "wl-copy"; do
+#         readonly program="${cmd%% *}"
+#         if command -v "${program}" >/dev/null 2>&1; then
+#             printf %s "${cmd}"
+#             exit
+#         else
+#             printf %s "wl-copy"
+#         fi
+#     done
+# }
 
 declare-option -docstring %{
     The shell command which will paste the system clipboard into the current buffer
-} str clipboardcmd_paste %sh{
-    for cmd in "xsel -o 2>/dev/null" "pbpaste" "wl-paste -p"; do
-        readonly program="${cmd%% *}"
-        if command -v "${program}" >/dev/null 2>&1; then
-            printf %s "${cmd}"
-            exit
-        fi
-    done
-}
+} str clipboardcmd_paste "wl-paste --no-newline"
+# %sh{
+#     for cmd in "xsel -o 2>/dev/null" "pbpaste" "wl-paste"; do
+#         readonly program="${cmd%% *}"
+#         if command -v "${program}" >/dev/null 2>&1; then
+#             printf %s "${cmd}"
+#             exit
+#         fi
+#     done
+# }
 
 define-command -params .. -docstring %{
     clipboard-copy [<data>…]: copy the given data to the system clipboard
@@ -42,6 +48,8 @@ define-command -params .. -docstring %{
 
     if ! join "$@" | eval "${kak_opt_clipboardcmd_copy}"; then
         echo fail "Unable to copy data to the system clipboard"
+    else
+        echo echo "Copied to system clipboard"
     fi
 } }
 

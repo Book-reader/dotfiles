@@ -36,16 +36,18 @@
 
 (rc/require 'snap-indent)
 (require 'snap-indent)
-(add-to-list 'snap-indent-excluded-modes
-             'conf-unix-mode
-             'conf-space-mode)
-;; Global snap-indent
-(define-globalized-minor-mode global-snap-indent-mode
-  snap-indent-mode
-  snap-indent-mode)
-(global-snap-indent-mode 1)
+;; (add-to-list 'snap-indent-excluded-modes
+;;              'conf-unix-mode
+;;              'conf-space-mode
+;;           ')
+;; ;; Global snap-indent
+;; (define-globalized-minor-mode global-snap-indent-mode
+;;   snap-indent-mode
+;;   snap-indent-mode)
+;; (global-snap-indent-mode 1)
 (setq snap-indent-on-save 1)
 ;; list of functions
+(add-hook 'c3-ts-mode-hook 'snap-indent-mode)
 (setq snap-indent-format '(untabify delete-trailing-whitespace))
 
 
@@ -89,6 +91,8 @@ With argument ARG, do this that many times."
 
 (rc/require 'multiple-cursors)
 (require 'multiple-cursors)
+
+(rc/require 'yaml-mode)
 
 ;; (rc/require 'lsp-mode)
 ;; (require 'lsp-mode)
