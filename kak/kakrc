@@ -9,7 +9,7 @@ evaluate-commands %sh{
 colorscheme gruvbox-dark
 face global function rgb:8ec07c
 
-add-highlighter global/ number-lines -relative
+add-highlighter global/ number-lines # -relative
 add-highlighter global/ show-whitespaces
 
 
