@@ -52,7 +52,7 @@
 
 
 (rc/require 'hl-todo)
-(require 'hl-todo)
+;(require 'hl-todo)
 (global-hl-todo-mode 1)
 
 ;; Sets font (also works in daemon)
@@ -90,7 +90,7 @@ With argument ARG, do this that many times."
   (delete-region (point) (progn (backward-word arg) (point))))
 
 (rc/require 'multiple-cursors)
-(require 'multiple-cursors)
+;(require 'multiple-cursors)
 
 (rc/require 'yaml-mode)
 
@@ -142,12 +142,12 @@ With argument ARG, do this that many times."
 (require 'consult)
 
 (rc/require 'vterm)
-(require 'vterm)
+'(require 'vterm)
 
 (setq treesit-language-source-alist
       '((c3 "https://github.com/c3lang/tree-sitter-c3")))
 
-(require 'c3-ts-mode)
+;(require 'c3-ts-mode)
 
 (load-file custom-file)
 (put 'downcase-region 'disabled nil)

@@ -1,7 +1,7 @@
 # We have autoload at home
 # autoload at home:
 evaluate-commands %sh{
-  for filename in $HOME/.config/kak/local/*.kak; do
+for filename in $HOME/.config/kak/local/*.kak; do
     echo "try %{ source \"${filename}\" }"
   done
 }
@@ -9,8 +9,14 @@ evaluate-commands %sh{
 colorscheme gruvbox-dark
 face global function rgb:8ec07c
 
-add-highlighter global/ number-lines # -relative
+add-highlighter global/ number-lines -relative
 add-highlighter global/ show-whitespaces
+
+set-option global ui_options terminal_assistant=cat
+set-option global tabstop 4
+set-option global indentwidth 0
+# set-option global aligntab true
+set-option global disabled_hooks .*-trim-indent
 
 
 map global normal y -docstring "Copy selection to clipboard"      ": clipboard-copy<ret>"
@@ -18,3 +24,27 @@ map global normal P -docstring "Paste clipboard after selection"  ": clipboard-p
 map global normal p -docstring "Paste clipboard before selection" ": clipboard-paste-before<ret>"
 map global normal r -docstring "Replace selection with clipboard" ": clipboard-replace<ret>"
 map global normal x -docstring "Cut selection to clipboard"       ": clipboard-copy; exec d<ret>"
+
+# evaluate-commands %sh{
+# 	maps="normal insert"
+# 	for map1 in ${maps}; do
+# 		printf %s "
+# 		unmap global $map1 <up>
+# 		unmap global $map1 <down>
+# 		unmap global $map1 <left>
+# 		unmap global $map1 <right>
+# 		unmap global $map1 <s-up>
+# 		unmap global $map1 <s-down>
+# 		unmap global $map1 <s-left>
+# 		unmap global $map1 <s-right>"
+# 	done
+# }
+
+
+
+
+
+hook global BufCreate .*[.]bl %{
+    set-option buffer filetype odin
+}
+

@@ -7,10 +7,10 @@ end
 
 set LSCMD "eza"
 set LSCMDARGS "--icons --git -l"
-set EDITOR "emacs"
+set EDITOR "kak"
 set EDITORARGS ""
 
-fish_add_path "$HOME/.bin" "$HOME/.local/bin" "$HOME/.cargo/bin" "$HOME/.nix-profile/bin" "$HOME/.config/emacs/bin" "$HOME/go/bin"
+fish_add_path "$HOME/git/c3c/bin" "$HOME/.bin" "$HOME/.local/bin" "$HOME/.cargo/bin" "$HOME/.nix-profile/bin" "$HOME/.config/emacs/bin" "$HOME/go/bin"
 
 alias getip "dig +short txt ch whoami.cloudflare @1.0.0.1"
 alias nvidia "sudo envycontrol -s nvidia"
@@ -29,6 +29,10 @@ if type -q "$LSCMD"
   alias la "$LSCMD $LSCMDARGS -a"
 end
 
+if type -q "bat"
+    alias cat "bat -pp"
+end
+
 alias yt1080 "yt-dlp -f bestvideo[height<=1080][ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best"
 if type -q "pipx"
 	alias pip "pipx"
@@ -45,9 +49,9 @@ abbr y "yay"
 if type -q "starship"
   starship init fish | source
 end
-if type -q "zoxide"
-  zoxide init fish --cmd cd | source
-end
+#if type -q "zoxide"
+#  zoxide init fish --cmd cd | source
+#end
 if type -q "fastfetch"
   fastfetch
 end
