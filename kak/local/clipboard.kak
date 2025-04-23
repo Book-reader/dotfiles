@@ -1,6 +1,6 @@
 declare-option -docstring %{
     The shell command to which data will be piped to copy to the system clipboard
-} str clipboardcmd_copy "wl-copy"
+} str clipboardcmd_copy "wl-copy > /dev/null 2>&1 &"
 # TODO: re-add when I update my system and remove xsel
 # %sh{
 #     # The '-p' in 'wl-copy -p' breaks things

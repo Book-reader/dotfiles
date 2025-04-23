@@ -1,0 +1,1 @@
+/home/user/code/editor-plugins/kakoune/c3.kak
