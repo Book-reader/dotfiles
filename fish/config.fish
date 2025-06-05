@@ -1,5 +1,8 @@
 if status is-interactive
 
+# fix the garbage new default
+bind ctrl-c cancel-commandline
+
 if [ "$TTY" = "TTY0" ]
 	# I sure hope this works, it will likely be over a week before I have to test this
 	uwsm start select

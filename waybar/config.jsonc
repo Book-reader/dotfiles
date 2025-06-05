@@ -15,7 +15,7 @@
         "tray",
 //	"custom/capslock",
         /*"custom/updates",*/
-        "custom/server",
+/*        "custom/server",*/
         "battery",
         "cpu",
         "memory",

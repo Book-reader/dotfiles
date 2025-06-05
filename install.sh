@@ -9,11 +9,11 @@ files=$(command ls)
 
 echo Backing up old config files
 for file in $files; do
-	if [ -d "$HOME/.config/$file" ]; then
+	if [ -e "$HOME/.config/$file" ]; then
 		if [ -L "$HOME/.config/$file" ]; then
 			echo "$HOME/.config/$file is a symlink, removing it"
 			rm "$HOME/.config/$file"
-		elif [ ! -d "$HOME/.config/$file.bak" ]; then
+		elif [ ! -e "$HOME/.config/$file.bak" ]; then
 			echo Moving \"$HOME/.config/$file\" to \"$HOME/.config/$file.bak\" 
 			mv "$HOME/.config/$file" "$HOME/.config/$file.bak"
 		else

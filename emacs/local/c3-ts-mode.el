@@ -30,6 +30,7 @@
 
 (require 'treesit)
 (require 'c-ts-common)
+(require 'compile)
 
 (eval-when-compile (require 'rx))
 
@@ -98,15 +99,15 @@
 
 (defvar c3-ts-mode--syntax-table
   (let ((table (make-syntax-table)))
-    ;; Taken from c-ts-mode.el
+    ;; Adapted from c-ts-mode.el
     (modify-syntax-entry ?_  "_"     table)
     (modify-syntax-entry ?\\ "\\"    table)
     (modify-syntax-entry ?+  "."     table)
     (modify-syntax-entry ?-  "."     table)
     (modify-syntax-entry ?=  "."     table)
     (modify-syntax-entry ?%  "."     table)
-    (modify-syntax-entry ?<  "."     table)
-    (modify-syntax-entry ?>  "."     table)
+    (modify-syntax-entry ?<  ". 1"   table) ; C3: the first character of a comment-start sequence
+    (modify-syntax-entry ?>  ". 4"   table) ; C3: the second character of a comment-end sequence
     (modify-syntax-entry ?&  "."     table)
     (modify-syntax-entry ?|  "."     table)
     (modify-syntax-entry ?\' "\""    table)
@@ -121,24 +122,24 @@
 
 (defvar c3-ts-mode--keywords
   ;; From "c3c --list-keywords", without base types
-  '("assert"
+  '("alias"
+    "assert"
     "asm"
+    "attrdef"
     "bitstruct"
     "break"
     "case"
     "catch"
     "const"
     "continue"
-    "def"
     "default"
     "defer"
-    "distinct"
     "do"
     "else"
     "enum"
     "extern"
     ;; "false" ;; NOTE Treated as constant
-    "fault"
+    "faultdef"
     "for"
     "foreach"
     "foreach_r"
@@ -158,17 +159,15 @@
     "switch"
     ;; "true" ;; NOTE Treated as constant
     "try"
+    "typedef"
     "union"
     "var"
     "while"
 
     "$alignof"
-    "$and"
-    "$append"
     "$assert"
     "$assignable"
     "$case"
-    "$concat"
     "$default"
     "$defined"
     "$echo"
@@ -191,7 +190,6 @@
     "$is_const"
     "$nameof"
     "$offsetof"
-    "$or"
     "$qnameof"
     "$sizeof"
     "$stringify"
@@ -201,7 +199,6 @@
     "$vacount"
     "$vatype"
     "$vaconst"
-    "$varef"
     "$vaarg"
     "$vaexpr"
     "$vasplat"))
@@ -276,8 +273,6 @@
     ">="
     "=>"
     "<="
-    ;; "{|"
-    ;; "(<"
     ;; "[<"
     "-="
     "--"
@@ -287,8 +282,6 @@
     "||"
     "+="
     "++"
-    ;; "|}"
-    ;; ">)"
     ;; ">]"
     "??"
     ;; "::"
@@ -303,7 +296,7 @@
     (keyword string type)
     ;; TODO Not clear if assignment should go in level 4 or not (3 is the default level).
     ,(append
-      '(builtin attribute escape-sequence literal constant assembly module function)
+      '(builtin attribute escape-sequence literal constant assembly module function doc-comment)
       (when c3-ts-mode-highlight-assignment '(assignment)))
     ,(append
       '(type-property operator bracket)
@@ -317,6 +310,15 @@
 (defvar c3-ts-mode--font-lock-settings
   ;; NOTE Earlier rules have precedence over later rules
   (treesit-font-lock-rules
+   :language 'c3
+   :feature 'doc-comment
+   '((doc_comment_contract
+      name: (at_ident) @font-lock-builtin-face)
+     (doc_comment_contract
+      mutability_contract: (_) @font-lock-constant-face)
+     (["<*" "*>"] @font-lock-doc-face)
+     (doc_comment_text) @font-lock-doc-face)
+
    :language 'c3
    :feature 'comment
    '((line_comment) @font-lock-comment-face
@@ -371,7 +373,7 @@
    :language 'c3
    :feature 'attribute
    '((attribute name: (_) @font-lock-builtin-face)
-     (define_attribute name: (_) @font-lock-builtin-face)
+     (attrdef_declaration name: (_) @font-lock-builtin-face)
      (call_inline_attributes (at_ident) @font-lock-builtin-face))
 
    :language 'c3
@@ -447,7 +449,7 @@
 
    :language 'c3
    :feature 'bracket
-   '((["(" ")" "[" "]" "{" "}" "(<" ">)" "[<" ">]" "{|" "|}"]) @font-lock-bracket-face)
+   '((["(" ")" "[" "]" "{" "}" "[<" ">]"]) @font-lock-bracket-face)
 
    :language 'c3
    :feature 'punctuation
@@ -473,10 +475,11 @@
 
      ((and (parent-is "block_comment_text") c-ts-common-looking-at-star)
       c-ts-common-comment-start-after-first-star -1)
-     ((and (parent-is "doc_comment_text") c-ts-common-looking-at-star)
-      c-ts-common-comment-start-after-first-star -2)
-     (c-ts-common-comment-2nd-line-matcher
-      c-ts-common-comment-2nd-line-anchor 1)
+
+     ;; NOTE This only indents the first line of a doc comment text. This way we preserve identation on subsequent lines, such as list item indentation. TODO Indent to a minimum of 1? Can still ruin formatting
+     ((node-is "doc_comment_text") parent-bol 1)
+     ((node-is "doc_comment_contract") parent-bol 1)
+     ((node-is "*>") parent-bol 0)
 
      ((node-is "}") standalone-parent 0)
      ((node-is ")") standalone-parent 0)
@@ -499,7 +502,6 @@
 
      ((parent-is "compound_stmt") standalone-parent c3-ts-mode-indent-offset)
      ((parent-is "initializer_list") standalone-parent c3-ts-mode-indent-offset)
-     ((parent-is "expr_block") standalone-parent c3-ts-mode-indent-offset)
      ((parent-is "case_stmt") standalone-parent c3-ts-mode-indent-offset)
      ((parent-is "default_stmt") standalone-parent c3-ts-mode-indent-offset)
 
@@ -515,10 +517,6 @@
 
      ;; Trailing macro block
      ((match "compound_stmt" nil "trailing" nil nil) parent 0)
-
-     ;; Special rule: No indent for expr block (avoid double indented contents)
-     ((match "expr_block" "local_decl_after_type" nil nil nil) parent-bol 0)
-     ((match "expr_block" "assignment_expr" "right" nil nil) parent-bol 0)
 
      ((match nil "field_expr" "field" nil nil) parent-bol c3-ts-mode-indent-offset)
      ((n-p-gp "." "field_expr" nil) parent-bol c3-ts-mode-indent-offset) ;; Field access beginning with "."
@@ -609,27 +607,33 @@
     ;; Navigation
     (setq-local treesit-defun-name-function #'c3-ts-mode--defun-name)
     (setq-local treesit-defun-type-regexp
-                `(,(rx bos
-                       (or "struct_declaration"
-                           "union_declaration"
-                           "bitstruct_declaration"
-                           "enum_declaration"
-                           "fault_declaration"
-                           "interface_declaration"
-                           "func_definition"
-                           "macro_declaration")
-                       eos)))
+                (rx bos
+                    (or "struct_declaration"
+                        "bitstruct_declaration"
+                        "enum_declaration"
+                        "interface_declaration"
+                        "func_definition"
+                        "macro_declaration"
+                        "const_declaration"
+                        "alias_declaration"
+                        "typedef_declaration"
+                        "faultdef_declaration"
+                        "attrdef_declaration")
+                    eos))
 
     ;; Imenu
     (setq-local treesit-simple-imenu-settings
                 `(("Struct" "\\`struct_declaration\\'" nil nil)
-                  ("Union" "\\`union_declaration\\'" nil nil)
                   ("Bitstruct" "\\`bitstruct_declaration\\'" nil nil)
                   ("Enum" "\\`enum_declaration\\'" nil nil)
-                  ("Fault" "\\`fault_declaration\\'" nil nil)
                   ("Interface" "\\`interface_declaration\\'" nil nil)
                   ("Function" "\\`func_definition\\'" nil nil)
-                  ("Macro" "\\`macro_declaration\\'" nil nil)))
+                  ("Macro" "\\`macro_declaration\\'" nil nil)
+                  ("Const" "\\`const_declaration\\'" nil nil)
+                  ("Alias" "\\`alias_declaration\\'" nil nil)
+                  ("Type" "\\`typedef_declaration\\'" nil nil)
+                  ("Fault" "\\`faultdef_declaration\\'" nil nil)
+                  ("Attribute" "\\`attrdef_declaration\\'" nil nil)))
 
     ;; Which-function
     (setq-local which-func-functions (treesit-defun-at-point))
@@ -640,6 +644,14 @@
   (add-to-list 'auto-mode-alist '("\\.c3\\'" . c3-ts-mode))
   (add-to-list 'auto-mode-alist '("\\.c3i\\'" . c3-ts-mode))
   (add-to-list 'auto-mode-alist '("\\.c3t\\'" . c3-ts-mode)))
+
+(eval-after-load 'compile
+  (lambda()
+    (add-to-list 'compilation-error-regexp-alist-alist
+                 '(c3
+                   "^(\\([^:]*\\):\\([0-9]+\\):\\([0-9]+\\)) \\(Warning\\)?.*$"
+                   1 2 3 (4)))
+    (add-to-list 'compilation-error-regexp-alist 'c3)))
 
 (provide 'c3-ts-mode)
 

@@ -16,9 +16,9 @@
 ;; I could increase the limit but I disable instead by removing "lines" from the below list
 ;; I also remove " indentation" because it seems to be bugged and only works for tabs and not spaces
 ;; "newline" + "newline-mark", "empty"
-(setq indent-tabs-mode nil)
+(setq indent-tabs-mode t)
 (setq whitespace-style '(face tabs spaces trailing space-before-tab space-after-tab space-mark tab-mark missing-newline-at-eof))
-(global-whitespace-mode 1)
+(global-whitespace-mode nil)
 
 (setq visible-bell 1)
 (setq inhibit-startup-message 1)
@@ -147,7 +147,7 @@ With argument ARG, do this that many times."
 (setq treesit-language-source-alist
       '((c3 "https://github.com/c3lang/tree-sitter-c3")))
 
-;(require 'c3-ts-mode)
+(require 'c3-ts-mode)
 
 (load-file custom-file)
 (put 'downcase-region 'disabled nil)
