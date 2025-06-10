@@ -12,24 +12,30 @@ fi
 SP_LIST=$(cat "$SP_LIST_FILE")
 
 
-is_sp() {
+is_curr_sp() {
 	if [ "$WS_NAME" = "\"$SP_NAME\"" ]; then
-		return 0;
+		return 0
 	else
-		for sp in $SP_LIST; do
-			if [ "$WS_NAME" = "\"$sp\"" ]; then
-				return 0;
-			fi
-		done
-		return 1;
+		return 1
 	fi
 }
 
+is_sp() {
+	for sp in $SP_LIST; do
+			if [ "$WS_NAME" = "\"$sp\"" ]; then
+				return 0
+			fi
+	done
+	return 1
+}
+
 go() {
-	if is_sp; then
+	if is_curr_sp; then
 		on_sp
 	else
-		echo $WS_ID > "$PREV_WS_FILE"
+		if !is_sp; then
+			echo $WS_ID > "$PREV_WS_FILE"
+		fi
 		off_sp
 	fi
 }
