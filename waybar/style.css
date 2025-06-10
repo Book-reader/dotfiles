@@ -20,6 +20,7 @@ window#waybar {
     color: @text;
     transition-property: background-color;
     transition-duration: .5s;
+    min-height: 28px;
 }
 
 window#waybar.hidden {
@@ -50,8 +51,7 @@ button {
 }
 
 /*#workspaces {
-    border-radius: 8;
-    border-top
+    border-radius: 12;
     background-color: #48d36A;
     border-top: 5px solid @base;
     border-bottom: 3px solid #48836a;
@@ -59,6 +59,8 @@ button {
 
 #workspaces button {
     padding: 5px;
+    padding-left: 0px;
+    padding-right: 0px;
     /* color: #313244; */
     color: @surface2;
     margin-right: 1px;
@@ -88,6 +90,18 @@ button {
     /* color: #cdd6f4; */
     color: @subtext1;
     border-radius: 10px;
+}
+
+/* epic hack, the first only selects the workspace, the second only selects its descendants */
+/* because css is dumb and there is no way to do both at the same time */
+#niri-workspace-sp, #niri-workspace-sp *,
+#niri-workspace-music, #niri-workspace-music *{
+	border: 0px;
+	padding: 0px;
+	margin-right: 0px;
+	font-size: 0px;
+	min-width: 0px;
+	min-height: 0px;
 }
 
 #mode {

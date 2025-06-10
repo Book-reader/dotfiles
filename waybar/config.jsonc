@@ -8,9 +8,9 @@
     "height": 0,
     "modules-left": [
         "clock",
-        "hyprland/workspaces"
+        "niri/workspaces"
     ],
-    "modules-center": ["hyprland/window"],
+    "modules-center": ["niri/window"],
     "modules-right": [
         "tray",
 //	"custom/capslock",
@@ -25,26 +25,26 @@
         "pulseaudio#microphone"
     ],
 
-    "hyprland/window": {
+    "niri/window": {
         "format": "{}"
     },
-    "hyprland/workspaces": {
+    "niri/workspaces": {
         "disable-scroll": true,
         "all-outputs": true,
 	"sort-by-number": true,
         "on-click": "activate",
 	"format": "{icon}",
         "format-icons": {
-            "1": "I",
-            "2": "II",
-            "3": "III",
-            "4": "IV",
-            "5": "V",
-	    "6": "VI",
-	    "7": "VII",
-	    "8": "VIII",
-	    "9": "IX",
-	    "10": "X"
+            "3": "I",
+            "4": "II",
+            "5": "III",
+            "6": "IV",
+	    "7": "V",
+	    "8": "VI",
+	    "9": "VII",
+	    "10": "VIII",
+	    "11": "IV",
+	    "12": "V",
 	    //"active": "AEFF{icon}"
         }
         //"persistent_workspaces": {
