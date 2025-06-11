@@ -384,12 +384,12 @@ binds {
 
     // Suggested binds for running programs: terminal, app launcher, screen locker.
     Super+T hotkey-overlay-title="Open a Terminal: alacritty" { spawn "alacritty"; }
-    Super+D hotkey-overlay-title="Run an Application: fuzzel" { spawn "sh" "-c" "tofi-drun | sh"; }
-    Super+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "hyprlock"; }
+    Super+D hotkey-overlay-title="Run an Application: tofi" { spawn "sh" "-c" "tofi-drun | sh"; }
+    Super+L hotkey-overlay-title="Lock the Screen: hyprlock" { spawn "hyprlock"; }
 
 	Super+Grave { spawn "~/.config/niri/scratchpad_toggle.sh" "sp"; }
 	Super+Shift+Grave { spawn "~/.config/niri/scratchpad_move.sh" "sp"; }
-	Super+M { spawn "~/.config/niri/scratchpad_toggle.sh" "music"; }
+	Super+S hotkey-overlay-title="Toggle the scratchpad where I keep my music in" { spawn "~/.config/niri/scratchpad_toggle.sh" "music"; }
 
     // You can also use a shell. Do this if you need pipes, multiple commands, etc.
     // Note: the entire command goes as a single argument in the end.

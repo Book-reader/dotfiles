@@ -33,7 +33,7 @@ go() {
 	if is_curr_sp; then
 		on_sp
 	else
-		if !is_sp; then
+		if ! is_sp; then
 			echo $WS_ID > "$PREV_WS_FILE"
 		fi
 		off_sp
