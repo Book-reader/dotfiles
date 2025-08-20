@@ -33,7 +33,7 @@ abbr g "git"
 abbr c "cd"
 abbr ns "nix-shell"
 if type -q "$EDITOR"
-  alias vim "$EDITOR $EDITORARGS"
+  # alias vim "$EDITOR $EDITORARGS"
 end
 abbr v "vim"
 if type -q "$LSCMD"
@@ -74,7 +74,6 @@ if type -q "fastfetch"
 end
 
 function fish_command_not_found
-  bash -c "~/.config/fish/bash.command-not-found"
   __fish_default_command_not_found_handler $argv
 end
 
